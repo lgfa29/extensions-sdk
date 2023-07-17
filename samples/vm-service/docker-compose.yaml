@@ -1,8 +1,11 @@
 services:
-  devenv-volumes:
-    image: ${DESKTOP_PLUGIN_IMAGE}
+  nomad: 
+    image: hashicorp/nomad:1.6.0-rc.1
+    command: ["agent", "-dev", "-bind", "0.0.0.0"]
+    ports:
+      - "4646:4646"
     cap_add:
-      - DAC_OVERRIDE
-      - FOWNER
+      - ALL
+    privileged: true
     volumes:
-      - /var/lib/docker:/var/lib/docker
+      - /var/run/docker.sock.raw:/var/run/docker.sock
